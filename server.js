@@ -18,6 +18,7 @@ app.get('/is-occupied', (req, res) => {
     res.send(occupied+"")
 })
 
+
 wss.on('connection', (ws) => {
 
     console.log('A client attempted to connect');
