@@ -8,7 +8,7 @@ const app = express();
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
 
-const serverIP = 'localhost'
+const serverIP = 'host.docker.internal'
 
 const { exec, spawn } = require('node:child_process');
 
