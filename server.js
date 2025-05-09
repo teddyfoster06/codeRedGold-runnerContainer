@@ -71,10 +71,12 @@ wss.on('connection', (ws) => {
                             if (err) {
                                 console.log("Compilation Error:");
                                 console.log(err);
+                                ws.send(err.message);
                                 ws.close(3420, "Compilation Error");
                             }else if (stderr){
                                 console.log("Compilation Error:");
                                 console.log(stderr);
+                                ws.send(stderr.message);
                                 ws.close(3420, "Compilation Error");
                             }else{
                                 const dockerProcess = spawn('java', ['Main']);
@@ -117,10 +119,12 @@ wss.on('connection', (ws) => {
                     if (err) {
                         console.log("Compilation Error:");
                         console.log(err);
+                        ws.send(err.message);
                         ws.close(3420, "Compilation Error");
                     }else if (stderr){
                         console.log("Compilation Error:");
                         console.log(stderr);
+                        ws.send(stderr.message);
                         ws.close(3420, "Compilation Error");
                     }else{
                         const dockerProcess = spawn('python3', ['./PyRunner.py']);
