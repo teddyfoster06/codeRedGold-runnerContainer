@@ -55,27 +55,27 @@ wss.on('connection', (ws) => {
                     console.log("File Write Failed");
                     console.log("Error:");
                     console.log(err);
-                    ws.close(1008, "File Write Failed");
+                    ws.close(3420, "File Write Failed");
                     return;
                 }
 
                 exec(`cat Main.java`, (err, stdout, stderr) => {
                     if (err) {
                         console.log("Failed to echo file: " + err);
-                        ws.close(1008, "Failed to echo file");
+                        ws.close(3420, "Failed to echo file");
                     }else if (stderr){
                         console.log("Failed to echo file: " + stderr);
-                        ws.close(1008, "Failed to echo file");
+                        ws.close(3420, "Failed to echo file");
                     }else if(stdout){
                         exec('javac Main.java', (err, stdout, stderr) => {
                             if (err) {
                                 console.log("Compilation Error:");
                                 console.log(err);
-                                ws.close(1004, err);
+                                ws.close(3420, "Compilation Error");
                             }else if (stderr){
                                 console.log("Compilation Error:");
                                 console.log(stderr);
-                                ws.close(1004, stderr);
+                                ws.close(3420, "Compilation Error");
                             }else{
                                 const dockerProcess = spawn('java', ['Main']);
                                 
@@ -89,7 +89,10 @@ wss.on('connection', (ws) => {
                                 });
                                 dockerProcess.on('close', (code) => {
                                     dockerProcess.kill()
-                                    ws.close(1008, `Exited with code ${code}`);
+                                    setTimeout(() => {
+                                        ws.close(3420, `Exited with code ${code}`);
+                                    }, 500)
+                                    
                                 });
                             }
                             return;
@@ -106,7 +109,7 @@ wss.on('connection', (ws) => {
                     console.log("File Write Failed");
                     console.log("Error:");
                     console.log(err);
-                    ws.close(1008, "File Write Failed");
+                    ws.close(3420, "File Write Failed");
                     return;
                 }
 
@@ -114,11 +117,11 @@ wss.on('connection', (ws) => {
                     if (err) {
                         console.log("Compilation Error:");
                         console.log(err);
-                        ws.close(1004, err);
+                        ws.close(3420, "Compilation Error");
                     }else if (stderr){
                         console.log("Compilation Error:");
                         console.log(stderr);
-                        ws.close(1004, stderr);
+                        ws.close(3420, "Compilation Error");
                     }else{
                         const dockerProcess = spawn('python3', ['./PyRunner.py']);
 
@@ -131,7 +134,7 @@ wss.on('connection', (ws) => {
                                 ws.send(data);
                             });
                             dockerProcess.on('close', (code) => {
-                                ws.close(1008, `Exited with code ${code}`);
+                                ws.close(3420, `Exited with code ${code}`);
                             });
                             
                         return;
